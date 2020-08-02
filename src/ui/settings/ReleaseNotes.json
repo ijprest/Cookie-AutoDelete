@@ -1,6 +1,14 @@
 {
   "releases": [
     {
+      "version": "unreleased",
+      "notes": [
+        "Added:  Manually entering expressions and using Shift+Enter will add the expression into the GreyList.",
+        "Added:  Search Expressions while typing.  It's not perfect but it is a start.  Closes #120.",
+        "Added:  IP CIDR Notation in Expressions.  Closes #814."
+      ]
+    },
+    {
       "version": "3.5.1",
       "notes": [
         "Fixed:  browsingData cleanup.  Remove Internal CAD Cookie from notifications and cleanup logs.  Closes #846.",
