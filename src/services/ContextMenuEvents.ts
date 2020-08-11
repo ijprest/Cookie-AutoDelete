@@ -65,7 +65,12 @@ export default class ContextMenuEvents extends StoreUser {
 
   public static menuInit(): void {
     if (!browser.contextMenus) return;
-    if (!getSetting(StoreUser.store.getState(), 'contextMenus') as boolean)
+    if (
+      !getSetting(
+        StoreUser.store.getState(),
+        `${SettingID.CONTEXT_MENUS}`,
+      ) as boolean
+    )
       return;
     if (ContextMenuEvents.isInitialized) return;
     ContextMenuEvents.isInitialized = true;
@@ -336,7 +341,7 @@ export default class ContextMenuEvents extends StoreUser {
       {
         checked: getSetting(
           StoreUser.store.getState(),
-          'activeMode',
+          `${SettingID.ACTIVE_MODE}`,
         ) as boolean,
         contexts: defaultContexts,
         id: ContextMenuEvents.MenuID.ACTIVE_MODE,
@@ -374,7 +379,10 @@ export default class ContextMenuEvents extends StoreUser {
       {
         msg: `ContextMenuEvents.menuClear:  Context Menu has been removed.`,
       },
-      getSetting(StoreUser.store.getState(), 'debugMode') as boolean,
+      getSetting(
+        StoreUser.store.getState(),
+        `${SettingID.DEBUG_MODE}`,
+      ) as boolean,
     );
   }
 
@@ -389,14 +397,17 @@ export default class ContextMenuEvents extends StoreUser {
         msg: `ContextMenuEvents.updateMenuItemCheckbox: Updated Menu Item.`,
         x: { id, checked },
       },
-      getSetting(StoreUser.store.getState(), 'debugMode') as boolean,
+      getSetting(
+        StoreUser.store.getState(),
+        `${SettingID.DEBUG_MODE}`,
+      ) as boolean,
     );
   }
 
   public static onCreatedOrUpdated(): void {
     const debug = getSetting(
       StoreUser.store.getState(),
-      'debugMode',
+      `${SettingID.DEBUG_MODE}`,
     ) as boolean;
     if (browser.runtime.lastError) {
       cadLog(
@@ -422,11 +433,11 @@ export default class ContextMenuEvents extends StoreUser {
   ): Promise<void> {
     const debug = getSetting(
       StoreUser.store.getState(),
-      'debugMode',
+      `${SettingID.DEBUG_MODE}`,
     ) as boolean;
     const contextualIdentities = getSetting(
       StoreUser.store.getState(),
-      'contextualIdentities',
+      `${SettingID.CONTEXTUAL_IDENTITIES}`,
     ) as boolean;
     cadLog(
       {
@@ -458,7 +469,7 @@ export default class ContextMenuEvents extends StoreUser {
         showNotification({
           duration: getSetting(
             StoreUser.store.getState(),
-            'notificationOnScreen',
+            `${SettingID.NOTIFY_DURATION}`,
           ) as number,
           msg: `${browser.i18n.getMessage('manualCleanError', [
             browser.i18n.getMessage(
@@ -862,7 +873,7 @@ export default class ContextMenuEvents extends StoreUser {
           // Setting Updated.
           StoreUser.store.dispatch<any>(
             updateSetting({
-              name: 'activeMode',
+              name: `${SettingID.ACTIVE_MODE}`,
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               value: info.checked!,
             }),
@@ -903,7 +914,7 @@ export default class ContextMenuEvents extends StoreUser {
       showNotification({
         duration: getSetting(
           StoreUser.store.getState(),
-          'notificationOnScreen',
+          `${SettingID.NOTIFY_DURATION}`,
         ) as number,
         msg: `${browser.i18n.getMessage('addNewExpressionNotificationFailed')}`,
       });
@@ -915,7 +926,7 @@ export default class ContextMenuEvents extends StoreUser {
       storeId: parseCookieStoreId(
         getSetting(
           StoreUser.store.getState(),
-          'contextualIdentities',
+          `${SettingID.CONTEXTUAL_IDENTITIES}`,
         ) as boolean,
         cookieStoreId,
       ),
@@ -925,13 +936,16 @@ export default class ContextMenuEvents extends StoreUser {
         msg: `background.addNewExpression - Parsed from Right-Click:`,
         x: payload,
       },
-      getSetting(StoreUser.store.getState(), 'debugMode') as boolean,
+      getSetting(
+        StoreUser.store.getState(),
+        `${SettingID.DEBUG_MODE}`,
+      ) as boolean,
     );
     const cache = StoreUser.store.getState().cache;
     showNotification({
       duration: getSetting(
         StoreUser.store.getState(),
-        'notificationOnScreen',
+        `${SettingID.NOTIFY_DURATION}`,
       ) as number,
       msg: `${browser.i18n.getMessage('addNewExpressionNotification', [
         payload.expression,
@@ -939,7 +953,7 @@ export default class ContextMenuEvents extends StoreUser {
         `${payload.storeId}${
           (getSetting(
             StoreUser.store.getState(),
-            'contextualIdentities',
+            `${SettingID.CONTEXTUAL_IDENTITIES}`,
           ) as boolean)
             ? cache[payload.storeId] !== undefined
               ? ` (${cache[payload.storeId]})`
